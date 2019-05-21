@@ -20,7 +20,7 @@ public class LoginOk {
   @Before
   public void setUp() throws Exception {
 	// Descargar Firefox driver (Gecko Driver) de https://github.com/mozilla/geckodriver/releases y copiar en carpeta drivers
-	System.setProperty("webdriver.gecko.driver", "drivers/geckodriver-v0.20.1-win64/geckodriver.exe");
+	System.setProperty("webdriver.gecko.driver", "drivers/geckodriver-v0.24.0-win64/geckodriver.exe");
 	// Descargar Chrome driver de https://sites.google.com/a/chromium.org/chromedriver/downloads y copiar en carpeta drivers
 	System.setProperty("webdriver.chrome.driver", "drivers/chromedriver_win32/chromedriver.exe");
 	// System.setProperty("webdriver.opera.driver", "/path/to/operadriver");
@@ -31,25 +31,26 @@ public class LoginOk {
 	// System.setProperty("webdriver.edge.driver", "C:/path/to/MicrosoftWebDriver.exe");
 	// System.setProperty("phantomjs.binary.path", "/path/to/phantomjs");
 
-	driver = new FirefoxDriver();
+	// driver = new FirefoxDriver();
 	// driver = new ChromeDriver();
-	// driver = new HtmlUnitDriver();
+	driver = new HtmlUnitDriver();
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testLoginOk() throws Exception {
-    driver.get("https://logappf1hmis2018.azurewebsites.net/");
-    driver.findElement(By.xpath("//a[contains(@href, '/Account/Login')]")).click();
-    driver.findElement(By.id("Email")).clear();
-    driver.findElement(By.id("Email")).sendKeys("hola@ual.es");
-    driver.findElement(By.id("Password")).clear();
-    driver.findElement(By.id("Password")).sendKeys("ABab12!!");
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
-    assertEquals("Hello hola@ual.es!", driver.findElement(By.linkText("Hello hola@ual.es!")).getText());
-    driver.findElement(By.linkText("Hello hola@ual.es!")).click();
+  public void testLoginok() throws Exception {
+    driver.get("http://loginapphmis2019jjcanada.azurewebsites.net/");
+    driver.findElement(By.linkText("Log in")).click();
+    driver.findElement(By.id("Input_Email")).click();
+    driver.findElement(By.id("Input_Email")).clear();
+    driver.findElement(By.id("Input_Email")).sendKeys("hola2019@ual.es");
+    driver.findElement(By.id("Input_Password")).clear();
+    driver.findElement(By.id("Input_Password")).sendKeys("ABab12!!");
+    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password'])[1]/following::button[1]")).click();
+    assertEquals("Hello hola2019@ual.es!", driver.findElement(By.linkText("Hello hola2019@ual.es!")).getText());
     driver.findElement(By.xpath("//form[@id='logoutForm']/ul/li[2]/button")).click();
+    assertTrue(isElementPresent(By.linkText("Log in")));
     assertEquals("Log in", driver.findElement(By.linkText("Log in")).getText());
   }
 
