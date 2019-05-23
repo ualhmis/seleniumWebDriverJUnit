@@ -32,8 +32,8 @@ public class LoginOk {
 	// System.setProperty("phantomjs.binary.path", "/path/to/phantomjs");
 
 	// driver = new FirefoxDriver();
-	// driver = new ChromeDriver();
-	driver = new HtmlUnitDriver();
+	driver = new ChromeDriver();
+	// driver = new HtmlUnitDriver();
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
