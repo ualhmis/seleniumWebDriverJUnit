@@ -42,7 +42,7 @@ public class RegistroKoYaExiste {
 	    baseUrl = "https://www.katalon.com/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }
-  
+  @Ignore
   @Test
   public void testRegistroKoYaExiste() throws Exception {
 	  driver.get("http://loginapphmis2019jjcanada.azurewebsites.net/");
