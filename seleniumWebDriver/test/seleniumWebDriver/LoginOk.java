@@ -19,10 +19,14 @@ public class LoginOk {
 
   @Before
   public void setUp() throws Exception {
+	// Uncomment drivers path to run in Eclipse (next two lines)
+	// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+	// System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+
 	// Descargar Firefox driver (Gecko Driver) de https://github.com/mozilla/geckodriver/releases y copiar en carpeta drivers
-	System.setProperty("webdriver.gecko.driver", "driver/geckodriver.exe");
+	// System.setProperty("webdriver.gecko.driver", "driver/geckodriver.exe");
 	// Descargar Chrome driver de https://sites.google.com/a/chromium.org/chromedriver/downloads y copiar en carpeta drivers
-	System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
+	// System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
 	// System.setProperty("webdriver.opera.driver", "/path/to/operadriver");
 
 	// Descargar IE driver from https://www.seleniumhq.org/download/ y copiar en carpeta drivers
@@ -31,8 +35,8 @@ public class LoginOk {
 	// System.setProperty("webdriver.edge.driver", "C:/path/to/MicrosoftWebDriver.exe");
 	// System.setProperty("phantomjs.binary.path", "/path/to/phantomjs");
 
-	// driver = new FirefoxDriver();
-	driver = new ChromeDriver();
+	driver = new FirefoxDriver();
+	// driver = new ChromeDriver();
 	// driver = new HtmlUnitDriver();
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
