@@ -31,8 +31,8 @@ public class PasswordtooshortTest {
   JavascriptExecutor js;
   @Before
   public void setUp() throws Exception{
-    System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
-    System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+    // System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
+    // System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
     // driver = new ChromeDriver();
     FirefoxOptions firefoxOptions = new FirefoxOptions();
     firefoxOptions.setHeadless(true);
