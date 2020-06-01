@@ -47,7 +47,7 @@ public class UalhmisTest {
 		chromeOptions.setHeadless(true);
 		// chromeOptions.addArguments("window-size=1920,1080");
 		driver = new ChromeDriver(chromeOptions);
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
 	}
