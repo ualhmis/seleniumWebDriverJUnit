@@ -79,11 +79,11 @@ public class UalhmisTest {
 	    driver.findElement(By.xpath("//h3[contains(.,\'UAL - Universidad\')]")).click();
 	    // 7 | click | linkText=Estudios | 
 	    // driver.findElement(By.linkText("Estudios")).click();
-	    try {
-	        Thread.sleep(3000);
-	      } catch (InterruptedException e) {
-	        e.printStackTrace();
-	      }
+	 // 14 | waitForElementVisible | id=1ºcurso | 30000
+	    {
+	      WebDriverWait wait = new WebDriverWait(driver, 30);
+	      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(.,'Estudios')]")));
+	    }
 
 	    driver.findElement(By.xpath("//a[contains(.,'Estudios')]")).click();
 	    // 8 | click | linkText=Grados | 
