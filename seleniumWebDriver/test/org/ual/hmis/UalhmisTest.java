@@ -35,8 +35,8 @@ public class UalhmisTest {
 	public void setUp() {
 		// driver = new HtmlUnitDriver();
 		// Uncomment drivers path to run in Eclipse (next two lines)
-		// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
-		// System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+		System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 
 		FirefoxOptions firefoxOptions = new FirefoxOptions();
 		firefoxOptions.setHeadless(false);
@@ -86,6 +86,11 @@ public class UalhmisTest {
 	    driver.findElement(By.linkText("Grados")).click();
 	    // 9 | runScript | window.scrollTo(0,390.3999938964844) | 
 	    js.executeScript("window.scrollTo(0,390.3999938964844)");
+	    {
+	        WebDriverWait wait = new WebDriverWait(driver, 30);
+	        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(.,\'Ingeniería y Arquitectura\')]")));
+	    }
+
 	    // 10 | click | linkText=Grado en Ingeniería Informática (Plan 2015) | 
 	    driver.findElement(By.linkText("Grado en Ingeniería Informática (Plan 2015)")).click();
 	    // 11 | click | linkText=Plan de Estudios | 
@@ -105,16 +110,17 @@ public class UalhmisTest {
 	        e.printStackTrace();
 	      }
 	    
-	    driver.findElement(By.linkText("Ordenadas por cursos")).click();
-	    // 14 | assertElementPresent | xpath=//strong[contains(.,'Herramientas y Métodos de Ingeniería del Software')] | 
-	    try {
-	        Thread.sleep(2000);
-	      } catch (InterruptedException e) {
-	        e.printStackTrace();
-	      }
+	    driver.findElement(By.linkText("Asignaturas")).click();
 
+	    // 14 | waitForElementVisible | id=1ºcurso | 30000
 	    {
-	      List<WebElement> elements = driver.findElements(By.xpath("//strong[contains(.,\'Herramientas y Métodos de Ingeniería del Software\')]"));
+	      WebDriverWait wait = new WebDriverWait(driver, 30);
+	      wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("1ºcurso")));
+	    }
+
+	    // 15 | assertElementPresent | xpath=//strong[contains(.,'Herramientas y Métodos de Ingeniería del Software')] | 
+	    {
+	      List<WebElement> elements = driver.findElements(By.linkText("Herramientas y Métodos de Ingeniería del Software"));
 	      assert(elements.size() > 0);
 	    }
 	  }
