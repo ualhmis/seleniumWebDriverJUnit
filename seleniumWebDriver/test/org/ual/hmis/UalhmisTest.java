@@ -36,7 +36,7 @@ public class UalhmisTest {
 		// driver = new HtmlUnitDriver();
 		// Uncomment drivers path to run in Eclipse (next two lines)
 		// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
-		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+		// System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 
 		// FirefoxOptions firefoxOptions = new FirefoxOptions();
 		// firefoxOptions.setHeadless(true);
@@ -44,6 +44,7 @@ public class UalhmisTest {
 				
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.setHeadless(true);
+		chromeOptions.addArguments("window-size=1920,1080");
 		driver = new ChromeDriver(chromeOptions);
 		
 		js = (JavascriptExecutor) driver;
