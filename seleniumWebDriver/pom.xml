@@ -29,7 +29,7 @@
 				<version>3.0.0-M3</version>
 				<configuration>
 					<includes>
-						<include>*.java</include>
+						<include>**/org/ual/hmis/*.java</include>
 					</includes>
 				</configuration>
 			</plugin>
