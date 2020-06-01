@@ -47,7 +47,7 @@ public class UalhmisTest {
 		chromeOptions.setHeadless(true);
 		// chromeOptions.addArguments("window-size=1920,1080");
 		driver = new ChromeDriver(chromeOptions);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		// driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
 	}
@@ -79,6 +79,12 @@ public class UalhmisTest {
 	    driver.findElement(By.xpath("//h3[contains(.,\'UAL - Universidad\')]")).click();
 	    // 7 | click | linkText=Estudios | 
 	    // driver.findElement(By.linkText("Estudios")).click();
+	    try {
+	        Thread.sleep(3000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+
 	    driver.findElement(By.xpath("//a[contains(.,'Estudios')]")).click();
 	    // 8 | click | linkText=Grados | 
 	    try {
