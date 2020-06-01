@@ -35,11 +35,11 @@ public class UalhmisTest {
 	public void setUp() {
 		// driver = new HtmlUnitDriver();
 		// Uncomment drivers path to run in Eclipse (next two lines)
-		System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
-		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+		// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+		// System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 
 		FirefoxOptions firefoxOptions = new FirefoxOptions();
-		firefoxOptions.setHeadless(false);
+		firefoxOptions.setHeadless(true);
 		driver = new FirefoxDriver(firefoxOptions);
 				
 		// ChromeOptions chromeOptions = new ChromeOptions();
