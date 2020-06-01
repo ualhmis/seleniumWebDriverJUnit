@@ -79,11 +79,6 @@ public class UalhmisTest {
 	    driver.findElement(By.xpath("//h3[contains(.,\'UAL - Universidad\')]")).click();
 	    // 7 | click | linkText=Estudios | 
 	    // driver.findElement(By.linkText("Estudios")).click();
-	    try {
-	        Thread.sleep(3000);
-	      } catch (InterruptedException e) {
-	        e.printStackTrace();
-	      }
 	    driver.findElement(By.xpath("//a[contains(.,'Estudios')]")).click();
 	    // 8 | click | linkText=Grados | 
 	    try {
