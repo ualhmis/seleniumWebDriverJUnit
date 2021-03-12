@@ -79,7 +79,7 @@ public class UalhmisTest {
 	    driver.findElement(By.xpath("//h3[contains(.,\'UAL - Universidad\')]")).click();
 	    // 7 | click | linkText=Estudios | 
 	    // driver.findElement(By.linkText("Estudios")).click();
-	 // 14 | waitForElementVisible | id=1ºcurso | 30000
+	    // 14 | waitForElementVisible | id=1ºcurso | 30000
 	    {
 	      WebDriverWait wait = new WebDriverWait(driver, 30);
 	      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(.,'Estudios')]")));
@@ -93,8 +93,7 @@ public class UalhmisTest {
 	        e.printStackTrace();
 	      }
 	    driver.findElement(By.linkText("Grados")).click();
-	    // 9 | runScript | window.scrollTo(0,390.3999938964844) | 
-	    js.executeScript("window.scrollTo(0,390.3999938964844)");
+	    // 9 | waitForElementVisible | xpath="//h2[contains(.,\'Ingeniería y Arquitectura\')]" | 30000 
 	    {
 	        WebDriverWait wait = new WebDriverWait(driver, 30);
 	        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(.,\'Ingeniería y Arquitectura\')]")));
