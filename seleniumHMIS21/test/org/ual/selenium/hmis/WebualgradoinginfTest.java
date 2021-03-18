@@ -124,40 +124,5 @@ public class WebualgradoinginfTest {
 		}
 		assertThat(driver.findElement(By.linkText(course)).getText(), is(course));
 	}
-/*	
-	@ParameterizedTest (name = "{index} => {0}")
-	@CsvSource({"Tratamiento Digital de Imágenes", 
-			    "Modelado y Diseño del Software 2", 
-			    "Modelado y Diseño del Software 1", 
-			    "Introducción a la Programación"})
-	
-	public void ualcourse(String course) {
-		// Test name: tdi-ual
-		// Step # | name | target | value
-		// 1 | open | / | 
-		driver.get("https://www.ual.es/");
-		// 2 | setWindowSize | 842x635 | 
-		driver.manage().window().setSize(new Dimension(842, 635));
-		// 3 | click | linkText=Estudios | 
-		driver.findElement(By.linkText("Estudios")).click();
-		// 4 | click | linkText=Grados | 
-		driver.findElement(By.linkText("Grados")).click();
-	    // 5 | click | xpath=//span[contains(.,'Grado en Ingeniería Informática (Plan 2015)')] | 
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")));
-		}
-		driver.findElement(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")).click();		
-	    // 6 | click | linkText=Plan de Estudios | 
-		driver.findElement(By.linkText("Plan de Estudios")).click();
-		// 7 | click | linkText=Asignaturas | 
-		driver.findElement(By.linkText("Asignaturas")).click();
-		// 8 | assertText | linkText=Tratamiento Digital de Imágenes | Tratamiento Digital de Imágenes
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.linkText(course)));
-		}
-		assertThat(driver.findElement(By.linkText(course)).getText(), is(course));
-	}
-*/
+
 }
