@@ -56,10 +56,10 @@ public class WebualgradoinginfTest {
 		
 	}
 	// @BeforeEach
-	public void setUp(int browser) {
+	public void setUp(int browser, boolean headless) {
 		// Browser selector 
 		// int browser= 0; // 0: firefox, 1: chrome,...
-		Boolean headless = false;
+		// Boolean headless = true;
 		
 		switch (browser) {
 		case 0:  // firefox
@@ -88,14 +88,15 @@ public class WebualgradoinginfTest {
 		driver.quit();
 	}
 	
-	@ParameterizedTest (name = "{index} => [{0}] {1}")
-	@CsvSource({"0, Tratamiento Digital de Imágenes", 
-			    "1, Modelado y Diseño del Software 2", 
-			    "0, Modelado y Diseño del Software 1", 
-			    "1, Introducción a la Programación"})
+	@ParameterizedTest (name = "{index} => [{0}, headless: {1}] {2}")
+	@CsvSource({"0, true, Tratamiento Digital de Imágenes", 
+			    "1, false, Modelado y Diseño del Software 2", 
+			    "0, true, Modelado y Diseño del Software 2", 
+			    "1, true, Introducción a la Programación",
+			    "0, true, Herramientas y Métodos de Ingeniería del Software"})
 	
-	public void ualcourseBrowser(int browser, String course) {
-		this.setUp(browser);
+	public void ualcourseBrowser(int browser, boolean headless, String course) {
+		this.setUp(browser, headless);
 		
 		// Test name: tdi-ual
 		// Step # | name | target | value
