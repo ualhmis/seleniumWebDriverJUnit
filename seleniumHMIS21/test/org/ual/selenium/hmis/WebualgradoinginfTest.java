@@ -88,7 +88,7 @@ public class WebualgradoinginfTest {
 		driver.findElement(By.linkText("Estudios")).click();
 		// 4 | click | linkText=Grados | 
 		driver.findElement(By.linkText("Grados")).click();
-		// 9 | waitForElementVisible | xpath="//h2[contains(.,\'Ingeniería y Arquitectura\')]" | 30000
+		// 9 | waitForElementVisible | xpath="//h2[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]" | 30000
 		{
 			WebDriverWait wait = new WebDriverWait(driver, 20);
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")));
