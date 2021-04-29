@@ -36,23 +36,37 @@ public class WebualgradoinginfTest {
 	static JavascriptExecutor js;
 	@Before
 	public void setUp() {
-		// Browser selector 
-		int browser= 0; // 0: firefox, 1: chrome,...
-		Boolean headless = false;
 
-		switch (browser) {
-		case 0:  // firefox
+		// Using a system property to chose the browser (by jjcanada)
+		// Browser as System.property: "browserWebDriver"
+		// In maven, call: 
+		//    run with firefox: clean test -DbrowserWebDriver=firefox
+		//    run with chrome : clean test -DbrowserWebDriver=chrome 
+
+		// System.setProperty("browserWebDriver", "firefox"); 
+		String browserProperty = ""; 
+		browserProperty= System.getProperty("browserWebDriver");
+		
+		// run headless: clean test -DbrowserWebDriver=firefox -Dheadless=true
+		Boolean headless = false;
+		if (System.getProperty("headless").equals("true")) {
+			headless = true;
+		}
+
+		switch (browserProperty) {
+		case "firefox": 
 			// Firefox 
 			// Descargar geckodriver de https://github.com/mozilla/geckodriver/releases
 			// Descomprimir el archivo geckodriver.exe en la carpeta drivers
 
 			System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+			System.getProperties().list(System.out);
 			FirefoxOptions firefoxOptions = new FirefoxOptions();
 			if (headless) firefoxOptions.setHeadless(headless);
 			driver = new FirefoxDriver(firefoxOptions);
 
 			break;
-		case 1: // chrome
+		case "chrome":
 			// Chrome
 			// Descargar Chromedriver de https://chromedriver.chromium.org/downloads
 			// Descomprimir el archivo chromedriver.exe en la carpeta drivers
