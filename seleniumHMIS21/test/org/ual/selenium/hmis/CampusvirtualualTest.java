@@ -40,13 +40,19 @@ public class CampusvirtualualTest {
 		//    run with chrome : clean test -DbrowserWebDriver=chrome 
 
 		// System.setProperty("browserWebDriver", "firefox"); 
+
 		String browserProperty = ""; 
-		browserProperty= System.getProperty("browserWebDriver");
-		
-		// run headless: clean test -DbrowserWebDriver=firefox -Dheadless=true
 		Boolean headless = false;
-		if (System.getProperty("headless").equals("true")) {
-			headless = true;
+		
+		try {
+			browserProperty= System.getProperty("browserWebDriver");
+		
+			// run headless: clean test -DbrowserWebDriver=firefox -Dheadless=true
+			if (System.getProperty("headless").equals("true")) {
+				headless = true;
+			}
+		}catch(Exception e) {
+			fail("Error en parámetros llamada a maven");
 		}
 
 		switch (browserProperty) {

@@ -60,7 +60,7 @@ public class WebualgradoinginfTest {
 			// Descomprimir el archivo geckodriver.exe en la carpeta drivers
 
 			// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
-			System.getProperties().list(System.out);
+			// System.getProperties().list(System.out);
 			FirefoxOptions firefoxOptions = new FirefoxOptions();
 			if (headless) firefoxOptions.setHeadless(headless);
 			driver = new FirefoxDriver(firefoxOptions);
