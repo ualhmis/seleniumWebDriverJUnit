@@ -30,39 +30,47 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 public class WebualgradoinginfTest {
 	private WebDriver driver;
 	private Map<String, Object> vars;
 	static JavascriptExecutor js;
+
 	@Before
 	public void setUp() {
 
 		// Using a system property to chose the browser (by jjcanada)
 		// Browser as System.property: "browserWebDriver"
-		// In maven, call: 
-		//    run with firefox: clean test -DbrowserWebDriver=firefox
-		//    run with chrome : clean test -DbrowserWebDriver=chrome 
+		// In maven, call:
+		// run with firefox: clean test -DbrowserWebDriver=firefox
+		// run with chrome : clean test -DbrowserWebDriver=chrome
 
-		// System.setProperty("browserWebDriver", "firefox"); 
-		String browserProperty = ""; 
-		browserProperty= System.getProperty("browserWebDriver");
-		
-		// run headless: clean test -DbrowserWebDriver=firefox -Dheadless=true
+		// System.setProperty("browserWebDriver", "firefox");
+
+		String browserProperty = "";
 		Boolean headless = false;
-		if (System.getProperty("headless").equals("true")) {
-			headless = true;
+
+		try {
+			browserProperty = System.getProperty("browserWebDriver");
+
+			// run headless: clean test -DbrowserWebDriver=firefox -Dheadless=true
+			if (System.getProperty("headless").equals("true")) {
+				headless = true;
+			}
+		} catch (Exception e) {
+			fail("Error en parámetros llamada a maven. En Run Configurations... Añade en los VM Arguments: -DbrowserWebDriver=chrome -Dheadless=false");
 		}
 
 		switch (browserProperty) {
-		case "firefox": 
-			// Firefox 
+		case "firefox":
+			// Firefox
 			// Descargar geckodriver de https://github.com/mozilla/geckodriver/releases
 			// Descomprimir el archivo geckodriver.exe en la carpeta drivers
 
-			// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
-			// System.getProperties().list(System.out);
+			System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe");
 			FirefoxOptions firefoxOptions = new FirefoxOptions();
-			if (headless) firefoxOptions.setHeadless(headless);
+			if (headless)
+				firefoxOptions.setHeadless(headless);
 			driver = new FirefoxDriver(firefoxOptions);
 
 			break;
@@ -71,9 +79,10 @@ public class WebualgradoinginfTest {
 			// Descargar Chromedriver de https://chromedriver.chromium.org/downloads
 			// Descomprimir el archivo chromedriver.exe en la carpeta drivers
 
-			// System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 			ChromeOptions chromeOptions = new ChromeOptions();
-			if (headless) chromeOptions.setHeadless(headless);
+			if (headless)
+				chromeOptions.setHeadless(headless);
 			chromeOptions.addArguments("window-size=1920,1080");
 			driver = new ChromeDriver(chromeOptions);
 
@@ -86,6 +95,7 @@ public class WebualgradoinginfTest {
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
 	}
+
 	@After
 	public void tearDown() {
 		driver.quit();
@@ -96,85 +106,194 @@ public class WebualgradoinginfTest {
 		// Step # | name | target | value
 		// 1 | open | / | 
 		driver.get("https://www.ual.es/");
-		// 2 | setWindowSize | 842x635 | 
-		driver.manage().window().setSize(new Dimension(842, 635));
-		// 3 | click | linkText=Estudios | 
-		driver.findElement(By.linkText("Estudios")).click();
-		// 4 | click | linkText=Grados | 
-		driver.findElement(By.linkText("Grados")).click();
-		// 9 | waitForElementVisible | xpath="//h2[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]" | 30000
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")));
-		}
-		// 5 | click | xpath=//span[contains(.,'Grado en Ingeniería Informática (Plan 2015)')] | 
-		driver.findElement(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")).click();		
-		// 6 | click | linkText=Plan de Estudios | 
-		driver.findElement(By.linkText("Plan de Estudios")).click();
-		// 7 | click | linkText=Asignaturas | 
-		driver.findElement(By.linkText("Asignaturas")).click();
-		// 8 | assertText | linkText=Herramientas y Métodos de Ingeniería del Software | Herramientas y Métodos de Ingeniería del Software
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Herramientas y Métodos de Ingeniería del Software")));
-		}		
-		assertThat(driver.findElement(By.linkText("Herramientas y Métodos de Ingeniería del Software")).getText(), is("Herramientas y Métodos de Ingeniería del Software"));
+	    // 2 | setWindowSize | 1251x740 | 
+	    driver.manage().window().setSize(new Dimension(1251, 740));
+	    // 3 | waitForElementPresent | xpath=//header/div[2] | 30000
+	    {
+	      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	      wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//header/div[2]")));
+	    }
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 4 | storeXpathCount | xpath=//button[contains(.,'Guardar')] | botonGuardar
+	    vars.put("botonGuardar", driver.findElements(By.xpath("//button[contains(.,\'Guardar\')]")).size());
+	    // 5 | echo | boton ${botonGuardar} | 
+	    System.out.println("boton "+ vars.get("botonGuardar").toString());
+	    // 6 | if | ${botonGuardar}>0 | 
+	    if ((Boolean) js.executeScript("return (arguments[0]>0)", vars.get("botonGuardar"))) {
+	      // 7 | click | css=.btn-accept | 
+	      driver.findElement(By.cssSelector(".btn-accept")).click();
+	      // 8 | end |  | 
+	    }
+	    // 9 | mouseOver | css=.dropdown:nth-child(2) .dropdown-toggle | 
+	    {
+	      WebElement element = driver.findElement(By.cssSelector(".dropdown:nth-child(2) .dropdown-toggle"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element).perform();
+	    }
+	    // 10 | mouseOver | css=.dropdown:nth-child(2) .dropdown-toggle | 
+	    {
+	      WebElement element = driver.findElement(By.cssSelector(".dropdown:nth-child(2) .dropdown-toggle"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element).perform();
+	    }
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 11 | click | linkText=Grados | 
+	    driver.findElement(By.linkText("Grados")).click();
+	    
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 12 | click | xpath=//span[contains(.,'Grado en Ingeniería Informática (Plan 2015)')] | 
+	    driver.findElement(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")).click();
+	    // 13 | waitForElementVisible | id=tituloGrado | 30000
+	    {
+	      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	      wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tituloGrado")));
+	    }
+	    try {
+	        Thread.sleep(3000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    // 14 | mouseOver | linkText=Plan de Estudios | 
+	    {
+	      WebElement element = driver.findElement(By.linkText("Plan de Estudios"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element).perform();
+	    }
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    // 15 | click | linkText=Plan de Estudios | 
+	    driver.findElement(By.linkText("Plan de Estudios")).click();
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 16 | click | linkText=Asignaturas | 
+	    driver.findElement(By.linkText("Asignaturas")).click();
+	    try {
+	        Thread.sleep(2000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+
+	    // 17 | assertText | linkText=Herramientas y Métodos de Ingeniería del Software | Herramientas y Métodos de Ingeniería del Software
+	    assertThat(driver.findElement(By.linkText("Herramientas y Métodos de Ingeniería del Software")).getText(), is("Herramientas y Métodos de Ingeniería del Software"));
 	}
+
 	@Test
-	public void mds2ual() {
+	public void tdiual() {
 		// Test name: mds2-ual
 		// Step # | name | target | value
 		// 1 | open | / | 
 		driver.get("https://www.ual.es/");
-		// 2 | setWindowSize | 842x635 | 
-		driver.manage().window().setSize(new Dimension(842, 635));
-		// 3 | click | linkText=Estudios | 
-		driver.findElement(By.linkText("Estudios")).click();
-		// 4 | click | linkText=Grados | 
-		driver.findElement(By.linkText("Grados")).click();
-	    // 5 | click | xpath=//span[contains(.,'Grado en Ingeniería Informática (Plan 2015)')] | 
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")));
-		}	    driver.findElement(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")).click();
-	    // 6 | click | linkText=Plan de Estudios | 
-		driver.findElement(By.linkText("Plan de Estudios")).click();
-		// 7 | click | linkText=Asignaturas | 
-		driver.findElement(By.linkText("Asignaturas")).click();
-		// 8 | assertText | linkText=Modelado y Diseño del Software 2 | Modelado y Diseño del Software 2
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Modelado y Diseño del Software 2")));
-		}
-		assertThat(driver.findElement(By.linkText("Modelado y Diseño del Software 2")).getText(), is("Modelado y Diseño del Software 2"));
-	}
-	@Test
-	public void tdiual() {
-		// Test name: tdi-ual
-		// Step # | name | target | value
-		// 1 | open | / | 
-		driver.get("https://www.ual.es/");
-		// 2 | setWindowSize | 842x635 | 
-		driver.manage().window().setSize(new Dimension(842, 635));
-		// 3 | click | linkText=Estudios | 
-		driver.findElement(By.linkText("Estudios")).click();
-		// 4 | click | linkText=Grados | 
-		driver.findElement(By.linkText("Grados")).click();
-	    // 5 | click | xpath=//span[contains(.,'Grado en Ingeniería Informática (Plan 2015)')] | 
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")));
-		}
-		driver.findElement(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")).click();		
-	    // 6 | click | linkText=Plan de Estudios | 
-		driver.findElement(By.linkText("Plan de Estudios")).click();
-		// 7 | click | linkText=Asignaturas | 
-		driver.findElement(By.linkText("Asignaturas")).click();
-		// 8 | assertText | linkText=Tratamiento Digital de Imágenes | Tratamiento Digital de Imágenes
-		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Tratamiento Digital de Imágenes")));
-		}
+	    // 2 | setWindowSize | 1251x740 | 
+	    driver.manage().window().setSize(new Dimension(1251, 740));
+	    // 3 | waitForElementPresent | xpath=//header/div[2] | 30000
+	    {
+	      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	      wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//header/div[2]")));
+	    }
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 4 | storeXpathCount | xpath=//button[contains(.,'Guardar')] | botonGuardar
+	    vars.put("botonGuardar", driver.findElements(By.xpath("//button[contains(.,\'Guardar\')]")).size());
+	    // 5 | echo | boton ${botonGuardar} | 
+	    System.out.println("boton "+ vars.get("botonGuardar").toString());
+	    // 6 | if | ${botonGuardar}>0 | 
+	    if ((Boolean) js.executeScript("return (arguments[0]>0)", vars.get("botonGuardar"))) {
+	      // 7 | click | css=.btn-accept | 
+	      driver.findElement(By.cssSelector(".btn-accept")).click();
+	      // 8 | end |  | 
+	    }
+	    // 9 | mouseOver | css=.dropdown:nth-child(2) .dropdown-toggle | 
+	    {
+	      WebElement element = driver.findElement(By.cssSelector(".dropdown:nth-child(2) .dropdown-toggle"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element).perform();
+	    }
+	    // 10 | mouseOver | css=.dropdown:nth-child(2) .dropdown-toggle | 
+	    {
+	      WebElement element = driver.findElement(By.cssSelector(".dropdown:nth-child(2) .dropdown-toggle"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element).perform();
+	    }
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 11 | click | linkText=Grados | 
+	    driver.findElement(By.linkText("Grados")).click();
+	    
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 12 | click | xpath=//span[contains(.,'Grado en Ingeniería Informática (Plan 2015)')] | 
+	    driver.findElement(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")).click();
+	    // 13 | waitForElementVisible | id=tituloGrado | 30000
+	    {
+	      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	      wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tituloGrado")));
+	    }
+	    try {
+	        Thread.sleep(3000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    // 14 | mouseOver | linkText=Plan de Estudios | 
+	    {
+	      WebElement element = driver.findElement(By.linkText("Plan de Estudios"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element).perform();
+	    }
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    // 15 | click | linkText=Plan de Estudios | 
+	    driver.findElement(By.linkText("Plan de Estudios")).click();
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // 16 | click | linkText=Asignaturas | 
+	    driver.findElement(By.linkText("Asignaturas")).click();
+	    try {
+	        Thread.sleep(2000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
 		assertThat(driver.findElement(By.linkText("Tratamiento Digital de Imágenes")).getText(), is("Tratamiento Digital de Imágenes"));
+		assertThat(driver.findElement(By.linkText("Modelado y Diseño del Software 2")).getText(), is("Modelado y Diseño del Software 2"));
 	}
 }
