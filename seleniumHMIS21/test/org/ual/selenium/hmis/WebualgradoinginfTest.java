@@ -30,6 +30,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
@@ -37,6 +39,10 @@ import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+
 public class WebualgradoinginfTest {
 	private WebDriver driver;
 	private Map<String, Object> vars;
@@ -76,7 +82,10 @@ public class WebualgradoinginfTest {
 			driver = new ChromeDriver(chromeOptions);
 
 			break;
+		case 2: // HtmlUnit Driver
+			driver = new HtmlUnitDriver(BrowserVersion.FIREFOX, true);
 
+			break;
 		default:
 			fail("Please select a browser");
 			break;
@@ -94,9 +103,11 @@ public class WebualgradoinginfTest {
 			    "1, false, Modelado y Diseño del Software 2", 
 			    "0, true, Modelado y Diseño del Software 2", 
 			    "1, true, Introducción a la Programación",
-			    "0, true, Herramientas y Métodos de Ingeniería del Software"})
+			    "0, true, Herramientas y Métodos de Ingeniería del Software",
+			    "2, true, Introducción a la Programación"})
 	
 	public void ualcourseBrowser(int browser, boolean headless, String course) {
+		// Hay que llamar explícitamente al método @BeforeEach para que reciba los parámetros
 		this.setUp(browser, headless);
 		
 		// Test name: tdi-ual
