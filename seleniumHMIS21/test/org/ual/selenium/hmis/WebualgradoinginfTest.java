@@ -36,6 +36,7 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 public class WebualgradoinginfTest {
 	private WebDriver driver;
 	private Map<String, Object> vars;
@@ -102,25 +103,68 @@ public class WebualgradoinginfTest {
 		// Step # | name | target | value
 		// 1 | open | / | 
 		driver.get("https://www.ual.es/");
-		// 2 | setWindowSize | 842x635 | 
-		driver.manage().window().setSize(new Dimension(842, 635));
+	    // 2 | setWindowSize | 1251x740 | 
+	    driver.manage().window().setSize(new Dimension(1251, 740));
+	    
+	    // Bloque de pulsar a boton aceptar, por si aparece 
+	    try {
+	        Thread.sleep(1000);
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      }
+	    
+	    // | storeXpathCount | xpath=//button[contains(.,'Guardar')] | botonGuardar
+	    vars.put("botonGuardar", driver.findElements(By.xpath("//button[contains(.,\'Guardar\')]")).size());
+	    // | echo | boton ${botonGuardar} | 
+	    System.out.println("boton "+ vars.get("botonGuardar").toString());
+	    // | if | ${botonGuardar}>0 | 
+	    if ((Boolean) js.executeScript("return (arguments[0]>0)", vars.get("botonGuardar"))) {
+	      // | click | css=.btn-accept | 
+	      driver.findElement(By.cssSelector(".btn-accept")).click();
+	      // | end |  | 
+	    }
+
+	    
 		// 3 | click | linkText=Estudios | 
 		driver.findElement(By.linkText("Estudios")).click();
 		// 4 | click | linkText=Grados | 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		driver.findElement(By.linkText("Grados")).click();
 	    // 5 | click | xpath=//span[contains(.,'Grado en Ingeniería Informática (Plan 2015)')] | 
 		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")));
 		}
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		driver.findElement(By.xpath("//span[contains(.,\'Grado en Ingeniería Informática (Plan 2015)\')]")).click();		
 	    // 6 | click | linkText=Plan de Estudios | 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		driver.findElement(By.linkText("Plan de Estudios")).click();
 		// 7 | click | linkText=Asignaturas | 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		driver.findElement(By.linkText("Asignaturas")).click();
 		// 8 | assertText | linkText=Tratamiento Digital de Imágenes | Tratamiento Digital de Imágenes
 		{
-			WebDriverWait wait = new WebDriverWait(driver, 20);
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 			wait.until(ExpectedConditions.elementToBeClickable(By.linkText(course)));
 		}
 		assertThat(driver.findElement(By.linkText(course)).getText(), is(course));
