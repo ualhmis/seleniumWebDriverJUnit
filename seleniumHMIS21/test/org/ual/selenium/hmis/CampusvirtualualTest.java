@@ -43,8 +43,8 @@ public class CampusvirtualualTest {
 	public void setUp() {
 
 		// Browser selector 
-		int browser= 1; // 0: firefox, 1: chrome,...
-		Boolean headless = false;
+		int browser= 0; // 0: firefox, 1: chrome,...
+		Boolean headless = true;
 
 		switch (browser) {
 		case 0:  // firefox
@@ -52,7 +52,7 @@ public class CampusvirtualualTest {
 			// Descargar geckodriver de https://github.com/mozilla/geckodriver/releases
 			// Descomprimir el archivo geckodriver.exe en la carpeta drivers
 
-			System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+			// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
 			FirefoxOptions firefoxOptions = new FirefoxOptions();
 			if (headless) firefoxOptions.addArguments("--headless"); // .setHeadless(headless);
 			driver = new FirefoxDriver(firefoxOptions);
@@ -64,7 +64,7 @@ public class CampusvirtualualTest {
 			// Descargar Chromedriver de https://chromedriver.chromium.org/downloads
 			// Descomprimir el archivo chromedriver.exe en la carpeta drivers
 
-			System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+			// System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 			ChromeOptions chromeOptions = new ChromeOptions();
 			if (headless) chromeOptions.addArguments("--headless=new"); // .setHeadless(headless);
 			chromeOptions.addArguments("window-size=1920,1080");

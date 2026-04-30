@@ -53,12 +53,12 @@ public class WebualgradoinginfTest {
 		// Firefox 
 		// Descargar geckodriver de https://github.com/mozilla/geckodriver/releases
 		// Descomprimir el archivo geckodriver.exe en la carpeta drivers
-		System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
+		// System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
 
 		// Chrome
 		// Descargar Chromedriver de https://chromedriver.chromium.org/downloads
 		// Descomprimir el archivo chromedriver.exe en la carpeta drivers
-		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+		// System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 
 		
 	}
@@ -102,11 +102,11 @@ public class WebualgradoinginfTest {
 	
 	@ParameterizedTest (name = "{index} => [{0}, headless: {1}] {2}")
 	@CsvSource({"0, true, Tratamiento Digital de Imágenes", 
-			    "0, false, Modelado y Diseño del Software 2", 
-			    "1, false, Modelado y Diseño del Software 2", 
-			    "1, true, Introducción a la Programación",
-			    "1, true, Herramientas y Métodos de Ingeniería del Software",
-			    "1, true, Introducción a la Programación"})
+			    "0, true, Modelado y Diseño del Software 2", 
+			    "0, true, Modelado y Diseño del Software 2", 
+			    "0, true, Introducción a la Programación",
+			    "0, true, Herramientas y Métodos de Ingeniería del Software",
+			    "0, true, Introducción a la Programación"})
 	
 	public void ualcourseBrowser(int browser, boolean headless, String course) {
 		// Hay que llamar explícitamente al método @BeforeEach para que reciba los parámetros
