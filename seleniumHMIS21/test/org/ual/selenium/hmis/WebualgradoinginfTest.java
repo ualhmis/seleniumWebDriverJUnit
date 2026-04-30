@@ -78,7 +78,7 @@ public class WebualgradoinginfTest {
 			break;
 		case 1: // chrome
 			ChromeOptions chromeOptions = new ChromeOptions();
-			if (headless) chromeOptions.addArguments("--headless"); // .setHeadless(headless);
+			if (headless) chromeOptions.addArguments("--headless=new"); // .setHeadless(headless);
 			// chromeOptions.addArguments("window-size=1920,1080");
 			driver = new ChromeDriver(chromeOptions);
 	    	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -101,9 +101,9 @@ public class WebualgradoinginfTest {
 	}
 	
 	@ParameterizedTest (name = "{index} => [{0}, headless: {1}] {2}")
-	@CsvSource({"0, true, Tratamiento Digital de Imágenes", 
-			    "0, true, Modelado y Diseño del Software 2", 
-			    "0, true, Modelado y Diseño del Software 2", 
+	@CsvSource({"1, true, Tratamiento Digital de Imágenes", 
+			    "1, true, Modelado y Diseño del Software 2", 
+			    "1, true, Modelado y Diseño del Software 2", 
 			    "0, true, Introducción a la Programación",
 			    "0, true, Herramientas y Métodos de Ingeniería del Software",
 			    "0, true, Introducción a la Programación"})
