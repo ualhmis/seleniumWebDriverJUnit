@@ -43,7 +43,7 @@ public class CampusvirtualualTest {
 	public void setUp() {
 
 		// Browser selector 
-		int browser= 0; // 0: firefox, 1: chrome,...
+		int browser= 1; // 0: firefox, 1: chrome,...
 		Boolean headless = false;
 
 		switch (browser) {
@@ -54,8 +54,9 @@ public class CampusvirtualualTest {
 
 			System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe");
 			FirefoxOptions firefoxOptions = new FirefoxOptions();
-			if (headless) firefoxOptions.setHeadless(headless);
+			if (headless) firefoxOptions.addArguments("--headless"); // .setHeadless(headless);
 			driver = new FirefoxDriver(firefoxOptions);
+	    	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
 			break;
 		case 1: // chrome
@@ -65,9 +66,10 @@ public class CampusvirtualualTest {
 
 			System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 			ChromeOptions chromeOptions = new ChromeOptions();
-			if (headless) chromeOptions.setHeadless(headless);
+			if (headless) chromeOptions.addArguments("--headless=new"); // .setHeadless(headless);
 			chromeOptions.addArguments("window-size=1920,1080");
 			driver = new ChromeDriver(chromeOptions);
+	    	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
 			break;
 
@@ -98,21 +100,22 @@ public class CampusvirtualualTest {
 	        e.printStackTrace();
 	      }
 	    
-	    // | storeXpathCount | xpath=//button[contains(.,'Guardar')] | botonGuardar
-	    vars.put("botonGuardar", driver.findElements(By.xpath("//button[contains(.,\'Guardar\')]")).size());
-	    // | echo | boton ${botonGuardar} | 
-	    System.out.println("boton "+ vars.get("botonGuardar").toString());
-	    // | if | ${botonGuardar}>0 | 
-	    if ((Boolean) js.executeScript("return (arguments[0]>0)", vars.get("botonGuardar"))) {
-	      // | click | css=.btn-accept | 
-	      driver.findElement(By.cssSelector(".btn-accept")).click();
-	      // | end |  | 
-	    }
-
+//	    // | storeXpathCount | xpath=//button[contains(.,'Guardar')] | botonGuardar
+//	    vars.put("botonGuardar", driver.findElements(By.xpath("//button[contains(.,\'Guardar\')]")).size());
+//	    // | echo | boton ${botonGuardar} | 
+//	    System.out.println("boton "+ vars.get("botonGuardar").toString());
+//	    // | if | ${botonGuardar}>0 | 
+//	    if ((Boolean) js.executeScript("return (arguments[0]>0)", vars.get("botonGuardar"))) {
+//	      // | click | css=.btn-accept | 
+//	      driver.findElement(By.cssSelector(".btn-accept")).click();
+//	      // | end |  | 
+//	    }
+		 // 4 | click | css=.acc-btn-accept-all | 
+	    driver.findElement(By.cssSelector(".acc-btn-accept-all")).click();
 		// 3 | click | linkText=Campus on-line | 
-		driver.findElement(By.linkText("Campus on-line")).click();
+		driver.findElement(By.linkText("Campus online")).click();
 		// 4 | click | linkText=Acceso a Campus Virtual | 
-		driver.findElement(By.linkText("Acceso a Campus Virtual")).click();
+		driver.findElement(By.linkText("Acceso a campus virtual")).click();
 		// 5 | click | linkText=Login | 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 	    wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Login")));
